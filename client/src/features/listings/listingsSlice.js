@@ -2,7 +2,7 @@ import { createSlice, nanoid, createAsyncThunk } from "@reduxjs/toolkit";
 
 import axios from "axios";
 
-const URL = "http://localhost:4000/posts";
+const URL = "http://localhost:4000/listings";
 
 const initialState = {
   listings: [],
