@@ -1,23 +1,24 @@
 import React from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { SinglePostPage } from "./features/posts/SinglePostPage";
-import { PostsList } from "./features/posts/PostsList";
-import { Navbar } from "./app/Navbar";
-import { EditPostForm } from "./features/posts/EditPostForm";
+import { Routes, Route } from "react-router-dom";
+
+import { Layout } from "./components/Layout";
+
+import { Listings } from "./features/listings/Listings";
+import { AddListing } from "./features/listings/AddListing";
+import { SingleListingPage } from "./features/listings/SingleListingPage";
 
 function App() {
   return (
-    <Router>
-      <div className="App">
-        <Navbar />
-        <Routes>
-          <Route exact path="/" element={<PostsList />} />
-          <Route exact path="/posts/:postId" element={<SinglePostPage />} />
-          <Route exact path="/editPost/:postId" component={EditPostForm} />
-          <Route path="*" element={<PostsList />} />
-        </Routes>
-      </div>
-    </Router>
+    <Routes>
+      <Route path="/" element={<Layout />}>
+        <Route index element={<Listings />} />
+
+        <Route path="listing">
+          <Route index element={<AddListing />} />
+          <Route path=":listingId" element={<SingleListingPage />} />
+        </Route>
+      </Route>
+    </Routes>
   );
 }
 

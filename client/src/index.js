@@ -1,15 +1,21 @@
 import React from "react";
-import { createRoot } from "react-dom/client";
+import ReactDOM from "react-dom/client";
+import "./index.css";
+import App from "./App";
+
 import { Provider } from "react-redux";
 import { store } from "./app/store";
-import App from "./App";
-import "./index.css";
+import { fetchListings } from "./features/listings/listingsSlice";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
-const container = document.getElementById("root");
-const root = createRoot(container);
-
+store.dispatch(fetchListings());
+const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <Provider store={store}>
-    <App />
+    <Router>
+      <Routes>
+        <Route path="/*" element={<App />} />
+      </Routes>
+    </Router>
   </Provider>
 );

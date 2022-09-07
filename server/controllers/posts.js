@@ -1,5 +1,3 @@
-
-
 export const getPost = async (req, res) => {
   try {
     const postMessages = await PostMessage.find();
@@ -10,7 +8,7 @@ export const getPost = async (req, res) => {
   }
 };
 
-export const createPost = (req, res) => {
+export const createPost = async (req, res) => {
   const post = req.body;
 
   const newPost = new PostMessage(newPost);
@@ -20,6 +18,6 @@ export const createPost = (req, res) => {
 
     res.status(200).json(newPost);
   } catch (error) {
-    res.status(409).json({ message: error.message});
+    res.status(409).json({ message: error.message });
   }
 };
