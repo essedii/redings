@@ -1,7 +1,9 @@
 import express from "express";
+import { updateListing } from "../../client/src/features/listings/listingsSlice.js";
 
 import {
   getListings,
+  updateListing,
   getListing,
   createListing,
 } from "../controllers/listings.js";
@@ -9,7 +11,8 @@ import {
 const router = express.Router();
 
 router.get("/", getListings);
-router.get("/", createListing);
+router.post("/", createListing);
+router.patch("/:id", updateListing);
 router.get("/:id", getListing);
 
 export default router;

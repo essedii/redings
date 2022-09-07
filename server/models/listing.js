@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 const listingSchema = mongoose.Schema({
   title: String,
-  content: String,
+  body: String,
   author: String,
   tags: [String],
   selectedFile: String,

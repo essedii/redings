@@ -67,12 +67,15 @@ const listingsSlice = createSlice({
       reducer(state, action) {
         state.listings.push(action.payload);
       },
-      prepare(title, content, userId) {
+      prepare(title, body, author, selectedFile, tags, userId) {
         return {
           payload: {
             id: nanoid(),
             title,
-            content,
+            body,
+            tags,
+            selectedFile,
+            author,
           },
         };
       },
@@ -85,7 +88,7 @@ const listingsSlice = createSlice({
       })
       .addCase(fetchListings.fulfilled, (state, action) => {
         state.status = "succeeded";
-        // Add any fetched posts to the array
+        // Add any fetched listings to the array
         state.listings = state.listings.concat(action.payload);
       })
       .addCase(fetchListings.rejected, (state, action) => {
@@ -103,8 +106,8 @@ const listingsSlice = createSlice({
           return;
         }
         const { id } = action.payload;
-        const posts = state.listings.filter((listing) => listing.id !== id);
-        state.posts = [...posts, action.payload];
+        const listings = state.listings.filter((listing) => listing.id !== id);
+        state.listings = [...listings, action.payload];
       })
       .addCase(deleteListing.fulfilled, (state, action) => {
         if (!action.payload?.id) {
@@ -113,8 +116,8 @@ const listingsSlice = createSlice({
           return;
         }
         const { id } = action.payload;
-        const posts = state.posts.filter((post) => post.id !== id);
-        state.posts = posts;
+        const listings = state.listings.filter((listing) => listing.id !== id);
+        state.listings = listings;
       });
   },
 });
