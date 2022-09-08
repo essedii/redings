@@ -3,33 +3,35 @@ import { useSelector, useDispatch } from "react-redux";
 import { ListingsExcerpt } from "./ListingsExerpt";
 
 import {
-  selectAllListings,
+  selectListingIds,
   getListingsStatus,
   getListingsError,
   fetchListings,
 } from "./listingsSlice";
 
 export const Listings = () => {
-  const listings = useSelector(selectAllListings);
+  // const listings = useSelector(selectAllListings);
+  const orderedListingIds = useSelector(selectListingIds);
+
   const listingStatus = useSelector(getListingsStatus);
   const error = useSelector(getListingsError);
 
-  let content = "";
-
+  let content;
   if (listingStatus === "loading") {
     content = <p>"Loading..."</p>;
   } else if (listingStatus === "succeeded") {
-    content = listings.map((listing) => (
-      <ListingsExcerpt key={listing.id} listing={listing} />
+    // const orderedListings = listings
+    //   .slice()
+    //   .sort((a, b) => b.date.localeCompare(a.date));
+    // content = orderedListings.map((listing) => (
+    //   <ListingsExcerpt key={listing.id} listing={listing} />
+    // ));
+    content = orderedListingIds.map((listingId) => (
+      <ListingsExcerpt key={listingId} listingId={listingId} />
     ));
   } else if (listingStatus === "failed") {
     content = <div>{error}</div>;
   }
 
-  return (
-    <section>
-      <h2>Listings</h2>
-      {content}
-    </section>
-  );
+  return <section>{content}</section>;
 };
