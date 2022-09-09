@@ -16,8 +16,7 @@ app.use("/listings", listingRoutes);
 app.use("/auth", authRoutes);
 
 const CONNECTION_URL =
-  // "mongodb+srv://dolci:memoriespassword123@cluster0.zf2razh.mongodb.net/?retryWrites=true&w=majority";
-  "mongodb+srv://dolci:memoriespassword123@cluster0.zf2razh.mongodb.net/?retryWrites=true&w=majority";
+ // Insert you MongoDB url
 
 const PORT = process.envPORT || 4000;
 
