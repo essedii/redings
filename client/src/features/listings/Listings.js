@@ -1,25 +1,20 @@
-import React, { useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import React from "react";
+import { useSelector } from "react-redux";
 import { ListingsExcerpt } from "./ListingsExerpt";
+import { useGetListingsQuery } from "./listingsSlice";
 
-import {
-  selectListingIds,
-  getListingsStatus,
-  getListingsError,
-  fetchListings,
-} from "./listingsSlice";
+import { selectListingIds } from "./listingsSlice";
 
 export const Listings = () => {
+  const { isLoading, isSuccess, isError, error } = useGetListingsQuery();
+
   // const listings = useSelector(selectAllListings);
   const orderedListingIds = useSelector(selectListingIds);
 
-  const listingStatus = useSelector(getListingsStatus);
-  const error = useSelector(getListingsError);
-
   let content;
-  if (listingStatus === "loading") {
+  if (isLoading) {
     content = <p>"Loading..."</p>;
-  } else if (listingStatus === "succeeded") {
+  } else if (isSuccess) {
     // const orderedListings = listings
     //   .slice()
     //   .sort((a, b) => b.date.localeCompare(a.date));
@@ -29,7 +24,7 @@ export const Listings = () => {
     content = orderedListingIds.map((listingId) => (
       <ListingsExcerpt key={listingId} listingId={listingId} />
     ));
-  } else if (listingStatus === "failed") {
+  } else if (isError) {
     content = <div>{error}</div>;
   }
 

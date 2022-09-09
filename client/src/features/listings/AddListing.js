@@ -1,48 +1,41 @@
 import { useState } from "react";
-import { useDispatch } from "react-redux";
 
 import FileBase from "react-file-base64";
 
-import { addNewListing } from "./listingsSlice";
+// import { addNewListing } from "./listingsSlice";
 import { useNavigate } from "react-router-dom";
+import { useAddNewListingMutation } from "./listingsSlice";
 
 export const AddListing = () => {
-  const dispatch = useDispatch();
+  const [addNewListing, { isLoading }] = useAddNewListingMutation();
 
   const navigate = useNavigate();
 
   const [title, setTitle] = useState("");
   const [author, setAuthor] = useState("");
   const [content, setContent] = useState("");
-  const [tags, setTags] = useState("");
-  const [selectedFile, setSelectedFile] = useState("");
-  const [addRequestStatus, setAddRequestStatus] = useState("idle");
+  const [userId, setUserId] = useState("");
+
+  // const [tags, setTags] = useState("");
+  // const [selectedFile, setSelectedFile] = useState("");
 
   const onTitleChanged = (e) => setTitle(e.target.value);
-  const onAuthorChanged = (e) => setAuthor(e.target.value);
-  const onTagsChanged = (e) => setTags(e.target.value);
   const onContentChanged = (e) => setContent(e.target.value);
+  const onAuthorChanged = (e) => setUserId(e.target.value);
 
-  const canSave = addRequestStatus === "idle";
+  const canSave = [title, content, userId].every(Boolean) && !isLoading;
 
-  const onSaveListingClicked = () => {
+  const onSaveListingClicked = async () => {
     if (canSave) {
       try {
-        dispatch(
-          addNewListing({ title, body: content, author, tags, selectedFile })
-        ).unwrap();
+        await addNewListing({ title, body: content, userId }).unwrap();
 
         setTitle("");
-        setAuthor("");
         setContent("");
-        setTags("");
-        setSelectedFile("");
-
+        setUserId("");
         navigate("/");
       } catch (err) {
         console.error("Failed to save the post", err);
-      } finally {
-        setAddRequestStatus("idle");
       }
     }
   };
@@ -77,20 +70,20 @@ export const AddListing = () => {
         />
 
         <label htmlFor="listingTags">Tags:</label>
-
+        {/* 
         <textarea
           id="listingContent"
           name="listingContent"
           value={tags}
           onChange={onTagsChanged}
-        />
-        <div>
+        /> */}
+        {/* <div>
           <FileBase
             type="file"
             multiple={false}
             onDone={({ base64 }) => setSelectedFile(base64)}
           />
-        </div>
+        </div> */}
 
         <button type="button" onClick={onSaveListingClicked}>
           Save Listing

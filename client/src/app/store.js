@@ -1,11 +1,13 @@
 import { configureStore } from "@reduxjs/toolkit";
 
-import listingsReducer from "../features/listings/listingsSlice";
-import usersReducer from "../features/users/usersSlice";
+import { apiSlice } from "../features/api/apiSlice";
 
 export const store = configureStore({
   reducer: {
-    listings: listingsReducer,
-    users: usersReducer,
+    //Dynamic name
+    [apiSlice.reducerPath]: apiSlice.reducer,
   },
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware().concat(apiSlice.middleware),
+  devTools: true,
 });

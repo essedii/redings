@@ -6,18 +6,20 @@ import { Listings } from "./features/listings/Listings";
 import { AddListing } from "./features/listings/AddListing";
 import UpdateListing from "./features/listings/UpdateListing";
 import { SingleListingPage } from "./features/listings/SingleListingPage";
-import UserPage from "./features/users/UserPage";
 
+import UserPage from "./features/users/UserPage";
 import UsersList from "./features/users/UsersList";
+import UserForm from "./features/users/UserForm";
 
 function App() {
   return (
     <Routes>
       <Route path="/" element={<Layout />}>
-        <Route index element={<Listings />} />
+        <Route index element={<UserForm />} />
 
         <Route path="listing">
-          <Route index element={<AddListing />} />
+          <Route index element={<Listings />} />
+          <Route path="create" element={<AddListing />} />
           <Route path=":listingId" element={<SingleListingPage />} />
           <Route path=":edit/:listingId" element={<UpdateListing />} />
         </Route>

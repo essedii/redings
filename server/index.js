@@ -4,6 +4,7 @@ import mongoose from "mongoose";
 import cors from "cors";
 
 import listingRoutes from "./routes/listings.js";
+import authRoutes from "./routes/auth.js";
 
 const app = express();
 
@@ -12,6 +13,7 @@ app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
 app.use(cors());
 
 app.use("/listings", listingRoutes);
+app.use("/auth", authRoutes);
 
 const CONNECTION_URL =
   // "mongodb+srv://dolci:memoriespassword123@cluster0.zf2razh.mongodb.net/?retryWrites=true&w=majority";

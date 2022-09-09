@@ -1,5 +1,4 @@
 import express from "express";
-import { updateListing } from "../../client/src/features/listings/listingsSlice.js";
 
 import {
   getListings,
