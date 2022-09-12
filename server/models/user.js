@@ -1,34 +1,18 @@
-import mongoose from "mongoose";
-import bcrypt from "bcryptjs";
+const mongoose = require("mongoose");
+const Schema = mongoose.Schema;
 
-const userSchema = mongoose.Schema({
-  email: String,
-  password: String,
+const schema = new Schema({
+  email: { type: String, unique: true, required: true },
+  password: { type: String, required: true },
 });
 
-userSchema.pre("save", function (next) {
-  const user = this;
+// schema.set("toJSON", {
+//   virtuals: true,
+//   versionKey: false,
+//   transform: function (doc, ret) {`
+//     delete ret._id;
+//     delete ret.hash;
+//   },
+// });
 
-  if (this.isModified("password") || this.isNew) {
-    bcrypt.genSalt(10, function (saltError, salt) {
-      if (saltError) {
-        return next(saltError);
-      } else {
-        bcrypt.hash(user.password, salt, function (hashError, hash) {
-          if (hashError) {
-            return next(hashError);
-          }
-
-          user.password = hash;
-          next();
-        });
-      }
-    });
-  } else {
-    return next();
-  }
-});
-
-var User = mongoose.model("User", userSchema);
-
-export default User;
+module.exports = mongoose.model("User", schema);

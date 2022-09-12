@@ -1,0 +1,4 @@
+﻿{
+  "connectionString": "mongodb+srv://dolci:memoriespassword123@cluster0.zf2razh.mongodb.net/?retryWrites=true&w=majority",
+  "secret": "secretKey"
+}

@@ -1,24 +1,54 @@
-import express from "express";
-import bodyParser from "body-parser";
-import mongoose from "mongoose";
-import cors from "cors";
-
-import listingRoutes from "./routes/listings.js";
-import authRoutes from "./routes/auth.js";
-
+require("rootpath")();
+const express = require("express");
 const app = express();
+const cors = require("cors");
+const bodyParser = require("body-parser");
+const mongoose = require("mongoose");
+const jsonwebtoken = require("jsonwebtoken");
 
-app.use(bodyParser.json({ limit: "30mb", extended: true }));
-app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
+const authRoutes = require("./routes/auth.router");
+
+// const jwt = require("_helpers/jwt");
+// const errorHandler = require("_helpers/error-handler");
+
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+app.use(function (req, res, next) {
+  if (
+    req.headers &&
+    req.headers.authorization &&
+    req.headers.authorization.split(" ")[0] === "JWT"
+  ) {
+    jsonwebtoken.verify(
+      req.headers.authorization.split(" ")[1],
+      "RESTFULAPIs",
+      function (err, decode) {
+        if (err) req.user = undefined;
+        req.user = decode;
+        next();
+      }
+    );
+  } else {
+    req.user = undefined;
+    next();
+  }
+});
 app.use(cors());
 
-app.use("/listings", listingRoutes);
+// use JWT auth to secure the api
+// app.use(jwt());
+
+// api routes
 app.use("/auth", authRoutes);
 
-const CONNECTION_URL =
- // Insert you MongoDB url
+// global error handler
+// app.use(errorHandler);
 
-const PORT = process.envPORT || 4000;
+// start server
+const CONNECTION_URL =
+  "mongodb+srv://dolci:memoriespassword123@cluster0.zf2razh.mongodb.net/?retryWrites=true&w=majority";
+
+const PORT = process.env.PORT || 4000;
 
 mongoose
   .connect(CONNECTION_URL, { useNewUrlParser: true, useUnifiedTopology: true })
