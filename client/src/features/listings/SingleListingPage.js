@@ -6,11 +6,9 @@ import { selectListingById } from "./listingsSlice";
 import { useParams } from "react-router-dom";
 
 export const SingleListingPage = () => {
-  const { listingId } = useParams();
+  const { _id } = useParams();
 
-  const listing = useSelector((state) =>
-    selectListingById(state, Number(listingId))
-  );
+  const listing = useSelector((state) => selectListingById(state, _id));
 
   if (!listing) {
     return (

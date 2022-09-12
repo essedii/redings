@@ -11,7 +11,7 @@ export const ListingsExcerpt = ({ listingId }) => {
       <p>{listing.body.substring(0, 75)}...</p>
       <h5>{listing.author}</h5>
       <p>
-        <Link to={`listing/${listing.id}`}>View Listing</Link>
+        <Link to={listing._id}>View Listing</Link>
       </p>
       <div>{listing.tags}</div>
     </article>

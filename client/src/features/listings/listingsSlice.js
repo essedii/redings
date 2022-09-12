@@ -11,7 +11,7 @@ const initialState = listingsAdapter.getInitialState();
 export const extendedApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     getListings: builder.query({
-      query: () => "/listings",
+      query: () => "/listings/",
       transformResponse: (responseData) => {
         let min = 1;
         const loadedListings = responseData.map((listing) => {
@@ -49,7 +49,6 @@ export const extendedApiSlice = apiSlice.injectEndpoints({
         method: "POST",
         body: {
           ...initialListing,
-          userId: Number(initialListing.userId),
           date: new Date().toISOString(),
         },
       }),
@@ -57,16 +56,13 @@ export const extendedApiSlice = apiSlice.injectEndpoints({
     }),
     updateListing: builder.mutation({
       query: (initialListing) => ({
-        url: `/listings/${initialListing.id}`,
+        url: `/listings/${initialListing._id}`,
         method: "PUT",
         body: {
           ...initialListing,
-          date: new Date().toISOString(),
         },
       }),
-      invalidatesTags: (result, error, arg) => [
-        { type: "Listing", id: arg.id },
-      ],
+      invalidatesTags: (result, error, arg) => [{ type: "Listing" }],
     }),
     deleteListing: builder.mutation({
       query: ({ id }) => ({

@@ -4,7 +4,7 @@ import { Routes, Route, Navigate } from "react-router-dom";
 import { Layout } from "./components/Layout";
 import { Listings } from "./features/listings/Listings";
 import { AddListing } from "./features/listings/AddListing";
-import UpdateListing from "./features/listings/UpdateListing";
+import { UpdateListing } from "./features/listings/UpdateListing";
 import { SingleListingPage } from "./features/listings/SingleListingPage";
 
 import UserPage from "./features/users/UserPage";
@@ -21,7 +21,7 @@ function App() {
           <Route index element={<Listings />} />
           <Route path="create" element={<AddListing />} />
           <Route path=":listingId" element={<SingleListingPage />} />
-          <Route path=":edit/:listingId" element={<UpdateListing />} />
+          <Route path="edit/:listingId" element={<UpdateListing />} />
         </Route>
         <Route path="user">
           <Route index element={<UsersList />} />
