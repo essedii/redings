@@ -1,8 +1,7 @@
 const config = require("config.json");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
-const db = require("_helpers/db");
-const User = db.User;
+const User = require("../models/user");
 
 module.exports = {
   authenticate,
@@ -16,7 +15,7 @@ module.exports = {
 async function authenticate({ email, password }) {
   const user = await User.findOne({ email });
   if (user && bcrypt.compareSync(password, user.password)) {
-    const token = jwt.sign({ email: user.email, id: user.id }, config.secret, {
+    const token = jwt.sign({ email: user.email, id: user.id }, "SECRETTOKEN", {
       expiresIn: "2h",
     });
     return {
@@ -33,15 +32,6 @@ async function getAll() {
 async function getById(id) {
   return await User.findById(id);
 }
-
-// async function getByToken(req) {
-//   if (req.user) {
-//     res.send(req.user);
-//     next();
-//   } else {
-//     return res.status(401).json({ message: "Invalid token" });
-//   }
-// }
 
 async function create(credentials) {
   // validate
