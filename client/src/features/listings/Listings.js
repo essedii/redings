@@ -1,25 +1,22 @@
+import React from "react";
 import { useSelector } from "react-redux";
 import { ListingsExcerpt } from "./ListingsExerpt";
 import { useGetListingsQuery } from "./listingsSlice";
 
-// import { selectListingIds, selectAllListings } from "./listingsSlice";
+import { selectListingIds, selectAllListings } from "./listingsSlice";
 const emptyArray = [];
 
 export const Listings = () => {
-  const { listings } = useGetListingsQuery(undefined, {
-    selectFromResult: ({ data }) => ({
-      listings: data ?? emptyArray,
-    }),
-  });
+  // const { listings } = useGetListingsQuery(undefined, {
+  //   selectFromResult: ({ data }) => ({
+  //     listings: data ?? emptyArray,
+  //   }),
+  // });
 
-  return (
-    <ul>
-      {listings.map((listing) => (
-        <div>
-          <h1>{listing.title}</h1>
-          <h3>{listing.body}</h3>
-        </div>
-      ))}
-    </ul>
-  );
+  const listingsIds = useSelector(selectListingIds);
+
+  let content = listingsIds.map((listingId) => (
+    <ListingsExcerpt key={listingId} listingId={listingId} />
+  ));
+  return <section>{content}</section>;
 };

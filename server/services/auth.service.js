@@ -56,10 +56,10 @@ async function update(id, userParam) {
   // validate
   if (!user) throw "User not found";
   if (
-    user.username !== userParam.username &&
-    (await User.findOne({ username: userParam.username }))
+    user.email !== userParam.email &&
+    (await User.findOne({ email: userParam.email }))
   ) {
-    throw 'Username "' + userParam.username + '" is already taken';
+    throw 'Email "' + userParam.email + '" is already taken';
   }
 
   // hash password if it was entered

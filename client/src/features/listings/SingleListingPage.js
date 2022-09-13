@@ -24,7 +24,7 @@ export const SingleListingPage = () => {
       <article>
         <h2>{listing.title}</h2>
 
-        <p className="listing-content">{listing.content}</p>
+        <p className="listing-content">{listing.body}</p>
         <Link to={`/listing/edit/${listingId}`}>Edit Post</Link>
       </article>
     </section>
