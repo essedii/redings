@@ -2,67 +2,33 @@ import { createSelector, createEntityAdapter } from "@reduxjs/toolkit";
 import { sub } from "date-fns";
 import { apiSlice } from "../api/apiSlice";
 
-const listingsAdapter = createEntityAdapter({
-  sortComparer: (a, b) => b.date.localeCompare(a.date),
-});
+// const listingsAdapter = createEntityAdapter({
+//   sortComparer: false,
+// });
 
-const initialState = listingsAdapter.getInitialState();
+// const initialState = listingsAdapter.getInitialState();
 
 export const extendedApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     getListings: builder.query({
-      query: () => "/listings/",
-      transformResponse: (responseData) => {
-        let min = 1;
-        const loadedListings = responseData.map((listing) => {
-          if (!listing?.date)
-            listing.date = sub(new Date(), { minutes: min++ }).toISOString();
-          return listing;
-        });
-        return listingsAdapter.setAll(initialState, loadedListings);
-      },
-      providesTags: (result, error, arg) => [
-        { type: "Listing", id: "LIST" },
-        ...result.ids.map((id) => ({ type: "Listing", id })),
-      ],
+      query: () => "/listings",
     }),
-    getListingsByUserId: builder.query({
-      query: (id) => `/listings/?userId=${id}`,
-      transformResponse: (responseData) => {
-        let min = 1;
-        const loadedListings = responseData.map((listing) => {
-          if (!listing?.date)
-            listing.date = sub(new Date(), { minutes: min++ }).toISOString();
-
-          return listing;
-        });
-
-        return listingsAdapter.setAll(initialState, loadedListings);
-      },
-      providesTags: (result, error, arg) => [
-        ...result.ids.map((id) => ({ type: "Listing", id })),
-      ],
+    getListing: builder.query({
+      query: (listingId) => `/listings/${listingId}`,
     }),
     addNewListing: builder.mutation({
       query: (initialListing) => ({
-        url: "/listings",
+        url: "/listings/create",
         method: "POST",
-        body: {
-          ...initialListing,
-          date: new Date().toISOString(),
-        },
+        body: initialListing,
       }),
-      invalidatesTags: [{ type: "Listing", id: "LIST" }],
     }),
     updateListing: builder.mutation({
       query: (initialListing) => ({
         url: `/listings/${initialListing._id}`,
         method: "PUT",
-        body: {
-          ...initialListing,
-        },
+        body: initialListing,
       }),
-      invalidatesTags: (result, error, arg) => [{ type: "Listing" }],
     }),
     deleteListing: builder.mutation({
       query: ({ id }) => ({
@@ -70,35 +36,33 @@ export const extendedApiSlice = apiSlice.injectEndpoints({
         method: "DELETE",
         body: { id },
       }),
-      invalidatesTags: (result, error, arg) => [
-        { type: "Listing", id: arg.id },
-      ],
     }),
   }),
 });
 
+//Hooks
 export const {
   useGetListingsQuery,
-  useGetListingsByUserIdQuery,
+  useGetListingQuery,
   useAddNewListingMutation,
   useUpdateListingMutation,
   useDeleteListingMutation,
 } = extendedApiSlice;
 
 // returns the ENTIRE query result object
-export const selectListingsResult =
-  extendedApiSlice.endpoints.getListings.select();
+// export const selectListingsResult =
+//   extendedApiSlice.endpoints.getListings.select();
 
 // Creates memoized selector
-const selectListingsData = createSelector(
-  selectListingsResult,
-  (listingsResult) => listingsResult.data // normalized state object with ids & entities
-);
-export const {
-  selectAll: selectAllListings,
-  selectById: selectListingById,
-  selectIds: selectListingIds,
-  // Pass in a selector that returns the listings slice of state
-} = listingsAdapter.getSelectors(
-  (state) => selectListingsData(state) ?? initialState
-);
+// const selectListingsData = createSelector(
+//   selectListingsResult,
+//   (listingsResult) => listingsResult.data // normalized state object with ids & entities
+// );
+// export const {
+//   selectAll: selectAllListings,
+//   selectById: selectListingById,
+//   selectIds: selectListingIds,
+// Pass in a selector that returns the listings slice of state
+// } = listingsAdapter.getSelectors(
+//   (state) => selectListingsData(state) ?? initialState
+// );

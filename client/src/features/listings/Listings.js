@@ -1,32 +1,25 @@
-import React from "react";
 import { useSelector } from "react-redux";
 import { ListingsExcerpt } from "./ListingsExerpt";
 import { useGetListingsQuery } from "./listingsSlice";
 
-import { selectListingIds } from "./listingsSlice";
+// import { selectListingIds, selectAllListings } from "./listingsSlice";
+const emptyArray = [];
 
 export const Listings = () => {
-  const { isLoading, isSuccess, isError, error } = useGetListingsQuery();
+  const { listings } = useGetListingsQuery(undefined, {
+    selectFromResult: ({ data }) => ({
+      listings: data ?? emptyArray,
+    }),
+  });
 
-  // const listings = useSelector(selectAllListings);
-  const orderedListingIds = useSelector(selectListingIds);
-
-  let content;
-  if (isLoading) {
-    content = <p>"Loading..."</p>;
-  } else if (isSuccess) {
-    // const orderedListings = listings
-    //   .slice()
-    //   .sort((a, b) => b.date.localeCompare(a.date));
-    // content = orderedListings.map((listing) => (
-    //   <ListingsExcerpt key={listing.id} listing={listing} />
-    // ));
-    content = orderedListingIds.map((listingId) => (
-      <ListingsExcerpt key={listingId} listingId={listingId} />
-    ));
-  } else if (isError) {
-    content = <div>{error}</div>;
-  }
-
-  return <section>{content}</section>;
+  return (
+    <ul>
+      {listings.map((listing) => (
+        <div>
+          <h1>{listing.title}</h1>
+          <h3>{listing.body}</h3>
+        </div>
+      ))}
+    </ul>
+  );
 };

@@ -1,8 +1,5 @@
 import { useState } from "react";
-
-import FileBase from "react-file-base64";
-
-// import { addNewListing } from "./listingsSlice";
+import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useAddNewListingMutation } from "./listingsSlice";
 
@@ -12,27 +9,27 @@ export const AddListing = () => {
   const navigate = useNavigate();
 
   const [title, setTitle] = useState("");
-  const [author, setAuthor] = useState("");
+  // const [author, setAuthor] = useState("");
   const [content, setContent] = useState("");
-  const [userId, setUserId] = useState("");
+  // const [userId, setUserId] = useState("");
 
   // const [tags, setTags] = useState("");
   // const [selectedFile, setSelectedFile] = useState("");
 
   const onTitleChanged = (e) => setTitle(e.target.value);
   const onContentChanged = (e) => setContent(e.target.value);
-  const onAuthorChanged = (e) => setUserId(e.target.value);
+  // const onAuthorChanged = (e) => setUserId(e.target.value);
 
-  const canSave = [title, content, userId].every(Boolean) && !isLoading;
+  const canSave = [title, content].every(Boolean) && !isLoading;
 
   const onSaveListingClicked = async () => {
     if (canSave) {
       try {
-        await addNewListing({ title, body: content, userId }).unwrap();
+        await addNewListing({ title, body: content }).unwrap();
 
         setTitle("");
         setContent("");
-        setUserId("");
+        // setUserId("");
         navigate("/");
       } catch (err) {
         console.error("Failed to save the post", err);
@@ -51,7 +48,7 @@ export const AddListing = () => {
           value={title}
           onChange={onTitleChanged}
         />
-        <label htmlFor="listingAuthor">Author:</label>
+        {/* <label htmlFor="listingAuthor">Author:</label>
 
         <input
           type="text"
@@ -59,7 +56,7 @@ export const AddListing = () => {
           name="listingAuthor"
           value={author}
           onChange={onAuthorChanged}
-        />
+        /> */}
         <label htmlFor="listingBody">Body:</label>
 
         <textarea

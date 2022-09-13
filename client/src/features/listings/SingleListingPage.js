@@ -1,14 +1,15 @@
 import React from "react";
 import { useSelector } from "react-redux";
 
-import { selectListingById } from "./listingsSlice";
-
+import { Link } from "react-router-dom";
+import { useGetListingQuery } from "./listingsSlice";
 import { useParams } from "react-router-dom";
 
 export const SingleListingPage = () => {
+  const { listingId } = useParams();
   const { _id } = useParams();
 
-  const listing = useSelector((state) => selectListingById(state, _id));
+  const listing = useGetListingQuery(_id);
 
   if (!listing) {
     return (
@@ -24,6 +25,7 @@ export const SingleListingPage = () => {
         <h2>{listing.title}</h2>
 
         <p className="listing-content">{listing.content}</p>
+        <Link to={`/listing/edit/${listingId}`}>Edit Post</Link>
       </article>
     </section>
   );
