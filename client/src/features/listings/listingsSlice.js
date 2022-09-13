@@ -4,6 +4,7 @@ import { apiSlice } from "../api/apiSlice";
 
 const listingsAdapter = createEntityAdapter({
   selectId: (listing) => listing._id,
+  sortComparer: (a, b) => b.createdAt.localeCompare(a.createdAt),
 });
 
 const initialState = listingsAdapter.getInitialState({});
@@ -12,6 +13,7 @@ export const extendedApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     getListings: builder.query({
       query: () => "/listings",
+      providesTags: ["Listing"],
       transformResponse: (responseData) => {
         let min = 1;
         const loadedListings = responseData.map((listing) => {
@@ -22,9 +24,6 @@ export const extendedApiSlice = apiSlice.injectEndpoints({
 
           return listing;
         });
-        console.log(initialState);
-        console.log("loadedListings", loadedListings);
-        console.log("listingsAdapter", listingsAdapter);
         return listingsAdapter.setAll(initialState, loadedListings);
       },
     }),
@@ -37,6 +36,7 @@ export const extendedApiSlice = apiSlice.injectEndpoints({
         method: "POST",
         body: initialListing,
       }),
+      invalidatesTags: ["Listing"],
     }),
     updateListing: builder.mutation({
       query: (initialListing) => ({

@@ -7,7 +7,7 @@ import { AddListing } from "./features/listings/AddListing";
 import { UpdateListing } from "./features/listings/UpdateListing";
 import { SingleListingPage } from "./features/listings/SingleListingPage";
 
-import UserPage from "./features/users/UserPage";
+// import UserPage from "./features/users/UserPage";
 import UsersList from "./features/users/UsersList";
 import UserForm from "./features/users/UserForm";
 
@@ -25,7 +25,7 @@ function App() {
         </Route>
         <Route path="user">
           <Route index element={<UsersList />} />
-          <Route path=":userId" element={<UserPage />} />
+          {/* <Route path=":userId" element={<UserPage />} /> */}
         </Route>
         <Route path="*" element={<Navigate to="/" replace />} />
       </Route>

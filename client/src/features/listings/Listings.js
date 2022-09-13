@@ -4,7 +4,6 @@ import { ListingsExcerpt } from "./ListingsExerpt";
 import { useGetListingsQuery } from "./listingsSlice";
 
 import { selectListingIds, selectAllListings } from "./listingsSlice";
-const emptyArray = [];
 
 export const Listings = () => {
   // const { listings } = useGetListingsQuery(undefined, {
@@ -12,11 +11,23 @@ export const Listings = () => {
   //     listings: data ?? emptyArray,
   //   }),
   // });
+  const { isLoading, isSuccess, isError, error } = useGetListingsQuery();
 
   const listingsIds = useSelector(selectListingIds);
 
-  let content = listingsIds.map((listingId) => (
-    <ListingsExcerpt key={listingId} listingId={listingId} />
-  ));
+  let content;
+
+  if (isLoading) {
+    content = <p text="Loading..." />;
+  } else if (isSuccess) {
+    content = listingsIds.map((listingId) => (
+      <div className="container d-flex justify-content-center">
+        <ListingsExcerpt key={listingId} listingId={listingId} />
+      </div>
+    ));
+  } else if (isError) {
+    content = <p>{error}</p>;
+  }
+
   return <section>{content}</section>;
 };
