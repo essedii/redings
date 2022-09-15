@@ -1,11 +1,11 @@
 import React from "react";
-import { Link } from "react-router-dom";
+
 
 export const Header = () => {
   const URL = "http://localhost:3000";
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-light d-flex justify-content-between ">
-      <a className="navbar-brand ms-2" href="#">
+      <a className="navbar-brand ms-2" href="/">
         Redux Gigs
       </a>
 

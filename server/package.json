@@ -1,23 +1,25 @@
 {
   "name": "server",
   "version": "1.0.0",
-  "description": "NodeJS + MongoDB API for User Management, Authentication and Registration",
-  "license": "MIT",
+  "description": "Backend for React Redux Gigs",
+  "main": "server.js",
   "scripts": {
-    "start": "nodemon index.js"
+    "start": "nodemon server.js"
   },
-  "dependencies": {
-    "bcryptjs": "^2.4.3",
-    "body-parser": "^1.20.0",
-    "cors": "^2.8.5",
-    "express": "^4.18.1",
-    "express-jwt": "^6.0.0",
-    "jsonwebtoken": "^8.5.1",
-    "mongodb": "^3.5.9",
-    "mongoose": "^5.9.21",
-    "rootpath": "^0.1.2"
-  },
+  "author": "Stefano Dolci",
+  "license": "ISC",
   "devDependencies": {
     "nodemon": "^2.0.19"
+  },
+  "dependencies": {
+    "bcrypt": "^5.0.1",
+    "cookie-parser": "^1.4.6",
+    "cors": "^2.8.5",
+    "date-fns": "^2.29.3",
+    "dotenv": "^16.0.2",
+    "express": "^4.18.1",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^6.6.1",
+    "uuid": "^9.0.0"
   }
 }
