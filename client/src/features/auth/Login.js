@@ -34,7 +34,7 @@ const Login = () => {
           dispatch(setCredentials({ ...userData, user }))
           setUser('')
           setPwd('')
-          navigate('/welcome')
+          navigate('/listings')
       } catch (err) {
           if (!err?.originalStatus) {
               // isLoading: true until timeout occurs
@@ -55,14 +55,15 @@ const Login = () => {
   const handlePwdInput = (e) => setPwd(e.target.value)
 
   const content = isLoading ? <h1>Loading...</h1> : (
-      <section className="login">
+      <div className=" d-flex align-items-center flex-column">
           <p ref={errRef} className={errMsg ? "errmsg" : "offscreen"} aria-live="assertive">{errMsg}</p>
 
-          <h1>Employee Login</h1>
-
-          <form onSubmit={handleSubmit}>
-              <label htmlFor="username">Username:</label>
+          <h3 className='mb-5'>Login</h3>
+          <div className="container d-flex justify-content-center">
+          <form autoComplete="off" >
+              <label  className="form-label" htmlFor="username">Username:</label>
               <input
+               className="form-control mb-3"
                   type="text"
                   id="username"
                   ref={userRef}
@@ -72,17 +73,28 @@ const Login = () => {
                   required
               />
 
-              <label htmlFor="password">Password:</label>
+              <label  className="form-label" htmlFor="password">Password:</label>
               <input
+               className="form-control mb-3"
                   type="password"
                   id="password"
                   onChange={handlePwdInput}
                   value={pwd}
                   required
               />
-              <button>Sign In</button>
+            <button
+              className="btn btn-sm btn-outline-success"
+              type="button"
+              onClick={handleSubmit}
+            >
+             Log In
+            </button>
           </form>
-      </section>
+    
+          </div>
+          <p className='mt-4'>Don't have an account? <a href='/register'>Signup</a> </p>
+    
+      </div>
   )
 
   return content

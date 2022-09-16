@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const Listing = require("../model/Listing");
 
-exports.getListings = async (req, res) => {
+const getListings = async (req, res) => {
   try {
     const allListings = await Listing.find();
 
@@ -11,7 +11,7 @@ exports.getListings = async (req, res) => {
   }
 };
 
-exports.getListing = async (req, res) => {
+const getListing = async (req, res) => {
   const { id } = req.params;
 
   try {
@@ -23,7 +23,7 @@ exports.getListing = async (req, res) => {
   }
 };
 
-exports.create = async (req, res) => {
+const createListing = async (req, res) => {
   const listing = req.body;
 
   const newListing = new Listing(listing);
@@ -37,7 +37,7 @@ exports.create = async (req, res) => {
   }
 };
 
-exports.update = async (req, res) => {
+const updateListing = async (req, res) => {
   const { id } = req.params;
   const { title, body } = req.body;
 
@@ -51,7 +51,7 @@ exports.update = async (req, res) => {
   res.json(updatedListing);
 };
 
-exports._delete = async (req, res) => {
+const deleteListing= async (req, res) => {
   const { id } = req.params;
 
   if (!mongoose.Types.ObjectId.isValid(id))
@@ -61,3 +61,12 @@ exports._delete = async (req, res) => {
 
   res.json("Listing deleted successfully.");
 };
+
+
+module.exports = {
+  createListing,
+  updateListing,
+  deleteListing,
+  getListing,
+  getListings
+}

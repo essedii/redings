@@ -49,9 +49,10 @@ app.use('/register', registerRoutes);
 app.use('/auth', authRoutes);
 app.use('/refresh', refreshRoutes);
 app.use('/logout', logoutRoutes);
+app.use(verifyJWT);
 app.use('/listings',listingsRoutes);
 app.use('/users',usersRoutes);
-app.use(verifyJWT);
+
 
 
 

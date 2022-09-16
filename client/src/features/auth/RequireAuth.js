@@ -4,7 +4,11 @@ import { selectCurrentToken } from "./authSlice"
 
 const RequireAuth = () => {
     const token = useSelector(selectCurrentToken)
+    if (token) {
+        localStorage.setItem('user', token)
+      }
     const location = useLocation()
+ 
 
     return (
         token
