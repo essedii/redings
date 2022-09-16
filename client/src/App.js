@@ -19,17 +19,10 @@ function App() {
         <Route path="login" element={<Login />} />
         <Route path="register" element={<Register />} />
 
-    
-
-        {/* protected routes */}
-        <Route element={<RequireAuth />}>
-          <Route path="listings">
-            <Route index element={<Listings />} />
-            <Route path=":listingId" element={<SingleListingPage />} />
-            <Route path="edit/:listingId" element={<EditListing />} />
-            <Route path="create" element={<AddListing />} />
-          </Route>
+        <Route path="listings">
+          <Route index element={<Listings />} />
         </Route>
+        {/* protected routes */}
         </Route>
     </Routes>
   );
