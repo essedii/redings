@@ -2,7 +2,7 @@ const User = require("../model/User");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
-const handleLogin = async (req, res) => {
+const handleLogin = async (req, res, next) => {
   const { username, password } = req.body;
 
   if (!username || !password)
@@ -24,7 +24,23 @@ const handleLogin = async (req, res) => {
     res.status(200).json({
       token: token,
     });
-    next(err);
+    next();
   }
 };
-module.exports = { handleLogin };
+
+const getCurrent = async (req, res) => {
+  const authHeader = req.get("Authorization");
+  if (!authHeader) res.sendStatus(401);
+
+  const token = authHeader.split(" ")[1];
+
+  jwt.verify(token, process.env.TOKEN_SECRET, (err, decoded) => {
+    if (err) return res.sendStatus(403); //invalid token
+
+    res.status(200).json({
+      username: decoded.username,
+      isLogged: true
+    })
+  });
+};
+module.exports = { handleLogin, getCurrent };

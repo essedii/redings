@@ -3,6 +3,9 @@ import React from "react";
 
 export const Header = () => {
   const URL = "http://localhost:3000";
+  // const token = localStorage.getItem('token');
+  // console.log(token);
+  
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-light d-flex justify-content-between mb-5">
       <a className="navbar-brand ms-2" href="/">
@@ -23,7 +26,7 @@ export const Header = () => {
           </li>
         </ul>
       </div>
-    
+    {/* <h3>{token.username}</h3> */}
     </nav>
   );
 };

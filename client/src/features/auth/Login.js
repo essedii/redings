@@ -10,8 +10,8 @@ import { useLoginMutation } from "./authApiSlice";
 const Login = () => {
   const userRef = useRef()
   const errRef = useRef()
-  const [user, setUser] = useState('')
-  const [pwd, setPwd] = useState('')
+  const [username, setUser] = useState('')
+  const [password, setPwd] = useState('')
   const [errMsg, setErrMsg] = useState('')
   const navigate = useNavigate()
 
@@ -24,17 +24,17 @@ const Login = () => {
 
   useEffect(() => {
       setErrMsg('')
-  }, [user, pwd])
+  }, [username, password])
 
   const handleSubmit = async (e) => {
       e.preventDefault()
 
       try {
-          const userData = await login({ user, pwd }).unwrap()
-          dispatch(setCredentials({ ...userData, user }))
+          const userData = await login({ username, password }).unwrap()
+          dispatch(setCredentials({ ...userData, username }))
           setUser('')
           setPwd('')
-          navigate('/listings')
+          navigate('/welcome')
       } catch (err) {
           if (!err?.originalStatus) {
               // isLoading: true until timeout occurs
@@ -67,7 +67,7 @@ const Login = () => {
                   type="text"
                   id="username"
                   ref={userRef}
-                  value={user}
+                  value={username}
                   onChange={handleUserInput}
                   autoComplete="off"
                   required
@@ -79,7 +79,7 @@ const Login = () => {
                   type="password"
                   id="password"
                   onChange={handlePwdInput}
-                  value={pwd}
+                  value={password}
                   required
               />
             <button
