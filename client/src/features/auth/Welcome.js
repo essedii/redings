@@ -7,12 +7,12 @@ const Welcome = () => {
   const token = useSelector(selectCurrentToken);
 
   const welcome = username ? `Welcome ${username}!` : "Welcome!";
-  const tokenAbbr = `${token.slice(0, 9)}...`;
+
 
   const content = (
     <section className="welcome">
       <h1>{welcome}</h1>
-      <p>Token: {tokenAbbr}</p>
+
       <p>
         <Link to="/listings">Go to the Users List</Link>
       </p>

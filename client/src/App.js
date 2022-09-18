@@ -9,6 +9,7 @@ import SingleListingPage from "./features/listings/SingleListingPage";
 import EditListing from "./features/listings/EditListing";
 import AddListing from "./features/listings/AddListing";
 import Register from "./features/auth/Register";
+import UserListingsPage from "./features/listings/UserListingsPage";
 
 function App() {
   return (
@@ -22,7 +23,13 @@ function App() {
 
         <Route path="listings">
           <Route index element={<Listings />} />
-        </Route>
+          <Route path="create" element={<AddListing />} />
+          <Route path="user/:id" element={<UserListingsPage />} />
+          <Route path=":id" element={<SingleListingPage />} />
+      
+     
+
+        </Route>x
         {/* protected routes */}
         </Route>
     </Routes>

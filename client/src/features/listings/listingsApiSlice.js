@@ -8,7 +8,6 @@ export const listingApiSlice = apiSlice.injectEndpoints({
 
    getListing: builder.query({
       query: (listingId) => `/listings/${listingId}`,
-    //  transformResponse: (response) => response.data,
     }),
     addNewListing: builder.mutation({
       query: (initialListing) => ({

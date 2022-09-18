@@ -5,6 +5,11 @@ export const Header = () => {
   const URL = "http://localhost:3000";
   // const token = localStorage.getItem('token');
   // console.log(token);
+  const handleLogout = () => {
+    localStorage.removeItem('accessToken')
+    localStorage.removeItem('user')
+    localStorage.removeItem('userId')
+  }
   
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-light d-flex justify-content-between mb-5">
@@ -25,6 +30,8 @@ export const Header = () => {
             </a>
           </li>
         </ul>
+       <button onClick={handleLogout}>LOGOUT</button>
+
       </div>
     {/* <h3>{token.username}</h3> */}
     </nav>

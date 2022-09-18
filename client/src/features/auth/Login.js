@@ -10,17 +10,14 @@ import { useLoginMutation } from "./authApiSlice";
 const Login = () => {
   const userRef = useRef()
   const errRef = useRef()
-  const [username, setUser] = useState('')
-  const [password, setPwd] = useState('')
+  const [username, setUsername] = useState('')
+  const [password, setPassword] = useState('')
   const [errMsg, setErrMsg] = useState('')
   const navigate = useNavigate()
 
   const [login, { isLoading }] = useLoginMutation()
   const dispatch = useDispatch()
 
-  useEffect(() => {
-      userRef.current.focus()
-  }, [])
 
   useEffect(() => {
       setErrMsg('')
@@ -32,8 +29,16 @@ const Login = () => {
       try {
           const userData = await login({ username, password }).unwrap()
           dispatch(setCredentials({ ...userData, username }))
-          setUser('')
-          setPwd('')
+          console.log('token', userData.token)
+          console.log('username', userData.username)
+          setUsername('')
+          setPassword('')
+    
+          localStorage.setItem('username', userData.username)
+          localStorage.setItem('token', userData.token)
+        //   localStorage.setItem('user', username)
+        //   localStorage.setItem('userId', userData.userId)
+         
           navigate('/welcome')
       } catch (err) {
           if (!err?.originalStatus) {
@@ -50,9 +55,9 @@ const Login = () => {
       }
   }
 
-  const handleUserInput = (e) => setUser(e.target.value)
+  const handleUsernameInput = (e) => setUsername(e.target.value)
 
-  const handlePwdInput = (e) => setPwd(e.target.value)
+  const handlePasswordInput = (e) => setPassword(e.target.value)
 
   const content = isLoading ? <h1>Loading...</h1> : (
       <div className=" d-flex align-items-center flex-column">
@@ -68,7 +73,7 @@ const Login = () => {
                   id="username"
                   ref={userRef}
                   value={username}
-                  onChange={handleUserInput}
+                  onChange={handleUsernameInput}
                   autoComplete="off"
                   required
               />
@@ -78,7 +83,7 @@ const Login = () => {
                className="form-control mb-3"
                   type="password"
                   id="password"
-                  onChange={handlePwdInput}
+                  onChange={handlePasswordInput}
                   value={password}
                   required
               />
