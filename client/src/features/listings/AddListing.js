@@ -1,35 +1,29 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
-import { useNavigate,  useLocation, Navigate } from "react-router-dom";
+import { useNavigate, useLocation, Navigate } from "react-router-dom";
 import { useAddNewListingMutation } from "./listingsApiSlice";
-import { selectCurrentToken } from "../auth/authSlice";
 import { useDispatch } from "react-redux";
-
 import { setCredentials } from "../auth/authSlice";
 
 const AddListing = () => {
-  const token = localStorage.getItem('token')
-  const username = localStorage.getItem('username')
-  const location = useLocation()
+  const token = localStorage.getItem("token");
+  const username = localStorage.getItem("username");
+  const location = useLocation();
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
-  //Trigger Function
   const [addNewListing, { isLoading }] = useAddNewListingMutation();
-  //Object with Metadata of request Status
   const canSave = [title, content].every(Boolean) && !isLoading;
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const onTitleChanged = (e) => setTitle(e.target.value);
   const onContentChanged = (e) => setContent(e.target.value);
-  const dispatch = useDispatch()
 
-  useEffect((): void => {
-    dispatch(setCredentials({token: token, username: username}));
-  }, []);
+  useEffect(() => {
+    dispatch(setCredentials({ token: token, username: username }));
+  });
 
   const onSaveListingClicked = async () => {
     if (canSave) {
-     
       try {
         await addNewListing({ title, body: content }).unwrap();
         setTitle("");
@@ -40,16 +34,10 @@ const AddListing = () => {
       }
     }
   };
-  return (
-    token
-    ?
+  return token ? (
     <div>
-            <h1>{username}</h1>
-      <h1>{token}</h1>
-
       <h3 className="ms-2 mt-2">Create Listing</h3>
       <div className="container d-flex justify-content-center">
-        {/* <h1>{listingId}</h1> */}
         <form autoComplete="off">
           <label className="form-label" htmlFor="listingTitle">
             Title:
@@ -82,6 +70,7 @@ const AddListing = () => {
               className="btn btn-sm btn-outline-success"
               type="button"
               onClick={onSaveListingClicked}
+              disabled={!canSave}
             >
               Save Listing
             </button>
@@ -89,9 +78,9 @@ const AddListing = () => {
         </form>
       </div>
     </div>
-      : <Navigate to="/login" state={{ from: location }} replace />
+  ) : (
+    <Navigate to="/listings" state={{ from: location }} replace />
   );
 };
 
 export default AddListing;
-

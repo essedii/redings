@@ -1,24 +1,18 @@
-import { Link } from "react-router-dom"
+import { useNavigate } from "react-router-dom"
 
 const Public = () => {
+    const navigate = useNavigate();
 
     const content = (
-        <div className="ms-3">
+        <div className="ms-3 mt-5">
             <header>
-                <h1>Welcome to React Redux Gigs</h1>
+                <h1>Welcome to REDINGS</h1>
             </header>
             <main>
-                <p>A web application made with Redux Toolkits and queries</p>
-                <p>&nbsp;</p>
-                <address>
-                    Created by<br />
-                    Stefano Dolci <br />
- 
-                </address>
+                <h3>Just a regular POSTS APP but with Redux Toolkit and RTK Query</h3>
             </main>
-            <footer>
-                <Link to="/login">Try it!</Link>
-            </footer>
+            <button className="btn btn-outline-primary me-2 mt-5" onClick={ () => navigate('/register')}>Try it!</button>
+            
         </div>
 
     )

@@ -1,21 +1,24 @@
 import { useSelector } from "react-redux";
-import { selectCurrentUser, selectCurrentToken } from "./authSlice";
-import { Link } from "react-router-dom";
+import { selectCurrentUser } from "./authSlice";
+import { useNavigate } from "react-router-dom";
 
 const Welcome = () => {
-  const username = useSelector(selectCurrentUser);
-  const token = useSelector(selectCurrentToken);
-
-  const welcome = username ? `Welcome ${username}!` : "Welcome!";
-
+  let username = localStorage.getItem("username");
+  let welcome = username ? `Welcome ${username}!` : "Welcome!";
+  const navigate = useNavigate();
 
   const content = (
     <section className="welcome">
-      <h1>{welcome}</h1>
-
-      <p>
-        <Link to="/listings">Go to the Users List</Link>
-      </p>
+      <div className="container">
+        <h1>{welcome}</h1>
+        <h3>Now you can create, update and delete your listings</h3>
+      </div>
+      <div className="mt-5 d-flex justify-content-center">
+      <button className="btn btn-outline-primary me-2"  onClick={() => navigate("/listings/create")}>Create a listing</button>
+      <button className="btn btn-primary"  onClick={() => navigate("/listings")}>Check Listings</button>
+      </div>
+     
+    
     </section>
   );
 

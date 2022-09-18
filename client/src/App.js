@@ -3,13 +3,11 @@ import Layout from "./components/Layout";
 import Public from "./components/Public";
 import Login from "./features/auth/Login";
 import Welcome from "./features/auth/Welcome";
-import RequireAuth from "./features/auth/RequireAuth";
 import Listings from "./features/listings/Listings";
 import SingleListingPage from "./features/listings/SingleListingPage";
 import EditListing from "./features/listings/EditListing";
 import AddListing from "./features/listings/AddListing";
 import Register from "./features/auth/Register";
-import UserListingsPage from "./features/listings/UserListingsPage";
 
 function App() {
   return (
@@ -17,21 +15,16 @@ function App() {
       <Route path="/" element={<Layout />}>
         <Route index element={<Public />} />
 
-        <Route path="login" element={<Login />} />
-        <Route path="register" element={<Register />} />
         <Route path="welcome" element={<Welcome />} />
-
         <Route path="listings">
           <Route index element={<Listings />} />
           <Route path="create" element={<AddListing />} />
-          <Route path="user/:id" element={<UserListingsPage />} />
-          <Route path=":id" element={<SingleListingPage />} />
-      
-     
-
-        </Route>x
-        {/* protected routes */}
+          <Route path="edit/:listingId" element={<EditListing />} />
+          <Route path=":listingId" element={<SingleListingPage />} />
         </Route>
+      </Route>
+      <Route path="login" element={<Login />} />
+      <Route path="register" element={<Register />} />
     </Routes>
   );
 }

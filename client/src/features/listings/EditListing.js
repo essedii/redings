@@ -1,9 +1,12 @@
-import { useState } from "react";
-
+import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useEditListingMutation, useGetListingQuery } from "./listingsApiSlice";
+import { useDispatch } from "react-redux";
+import { setCredentials } from "../auth/authSlice";
 
 const EditListing = () => {
+  const token = localStorage.getItem("token");
+  const username = localStorage.getItem("username");
   const { listingId } = useParams();
   // const oldListing = useGetListingQuery(listingId)
 
@@ -18,18 +21,22 @@ const EditListing = () => {
     error,
   } = useGetListingQuery(listingId);
   const [editListing] = useEditListingMutation();
-  //Object with Metadata of request Status
-  // const canSave = [title, content].every(Boolean) && !isLoading;
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const onTitleChanged = (e) => setTitle(e.target.value);
   const onContentChanged = (e) => setContent(e.target.value);
 
+  useEffect(() => {
+    dispatch(setCredentials({ token: token, username: username }));
+  });
+
   const onSaveListingClicked = async () => {
+    let content;
     if (isLoading) {
       content = <p text="Loading..." />;
     } else if (isSuccess) {
       try {
-        await editListing({ title, body: content, _id: listingId }).unwrap();
+        await editListing({ title: title, body: content, _id: listingId }).unwrap();
         setTitle("");
         setContent("");
         navigate("/listings");
@@ -42,47 +49,52 @@ const EditListing = () => {
   };
   return (
     <div>
-      <h3 className="ms-2 mt-2">Edit Listing</h3>
-      <div className="container d-flex justify-content-center">
-        <form autoComplete="off">
-          <label className="form-label" htmlFor="listingTitle">
-            Title:
-          </label>
-          <input
-            className="form-control mb-3"
-            type="text"
-            id="listingTitle"
-            name="listingTitle"
-            value={title}
-            placeholder={oldListing?.title}
-            onChange={onTitleChanged}
-          />
-          <label className="form-label" htmlFor="listingAuthor">
-            Content:
-          </label>
+      <div
+        className=" d-flex align-items-center flex-column "
 
-          <textarea
-            className="form-control"
-            style={{ height: "100px" }}
-            id="listingContent"
-            name="listingContent"
-            value={content}
-            placeholder={oldListing?.body}
-            onChange={onContentChanged}
-          />
-          <div
-            className="d-flex justify-content-between mt-3"
-            style={{ width: "300px" }}
-          >
-            <button
-              className="btn btn-sm btn-outline-success"
-              type="button"
-              onClick={onSaveListingClicked}
+      >
+        <h3 className="ms-2 mt-2">Edit Listing</h3>
+        <div className="container d-flex flex-column justify-content-center" style={{ width: "20rem", backgroundColor: "whitesmoke" }}>
+          <form autoComplete="off">
+            <label className="form-label mt-3" htmlFor="listingTitle">
+              Title:
+            </label>
+            <input
+              className="form-control mb-3"
+              type="text"
+              id="listingTitle"
+              name="listingTitle"
+              value={title}
+              placeholder={oldListing?.title}
+              onChange={onTitleChanged}
+            />
+            <label className="form-label" htmlFor="listingAuthor">
+              Content:
+            </label>
+
+            <textarea
+              className="form-control"
+              style={{ height: "100px" }}
+              id="listingContent"
+              name="listingContent"
+              value={content}
+              placeholder={oldListing?.body}
+              onChange={onContentChanged}
+            />
+            <div
+              className="d-flex justify-content-between mt-3"
+              style={{ width: "300px" }}
             >
-              Save Listing
-            </button>
-          </div>
-        </form>
+              <button
+                className="btn btn-sm btn-success mb-3 mt-2"
+                type="button"
+                onClick={onSaveListingClicked}
+              >
+                Save Listing
+              </button>
+            </div>
+          </form>
+        </div>
       </div>
     </div>
   );
